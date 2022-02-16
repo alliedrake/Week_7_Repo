@@ -9,26 +9,37 @@ public class MouseLook : MonoBehaviour
 
     public float mouseSpeed = 300f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private float  xRotation = 0f;
+
+    // // Start is called before the first frame update
+    // void Start()
+    // {
         
-    }
+    // }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
+         if (Input.GetKey(KeyCode.Mouse1))
+         {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSpeed * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSpeed * Time.deltaTime;
 
-        Debug.Log("Mouse X is " + mouseX);
-        Debug.Log("Mouse Y is " + mouseY);
+            //  Debug.Log("Mouse X is " + mouseX);
+            //  Debug.Log("Mouse Y is " + mouseY);
 
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
+            // Look LEFT/RIGHT
+            //
             playerBody.Rotate(Vector3.up * mouseX);
-            playerBody.Rotate(Vector3.left * mouseY);
-        }
+
+            // Look UP/DOWN
+            //
+            // playerBody.Rotate(Vector3.left * mouseY);
+            xRotation += mouseY;
+            xRotation = Mathf.Clamp(xRotation, -45f, 45f);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+         }
 
     }
 }
