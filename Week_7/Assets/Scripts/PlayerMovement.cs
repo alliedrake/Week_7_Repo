@@ -12,6 +12,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     public float gravity = -9f;
 
+    public Transform groundCheck;
+    public float groundRadius = 0.4f;
+    public LayerMask groundMask;
+    private bool isGrounded; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,8 +34,16 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(whichWay * speed * Time.deltaTime);
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundMask);
+
+        if (isGrounded)
+        {
+            velocity.y = 0f;
+        } else 
+        {
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
 
     }
 }
